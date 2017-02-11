@@ -16,9 +16,10 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
+Route::get('uploadfile/{id}',['as' => 'uploadfile', 'uses' => 'UploadController@getviewteacher']);
 Route::get('/home', 'HomeController@index');
 Route::get('/uploadfile','UploadController@getview');
+
 Route::post('/insertfile',array('as'=>'insertfile' , 'uses' => 'UploadController@insertFile'));
 Route::get('viewAlldownloadfile','DownloadController@downfunc');
 Route::get('viewAlldownloadfile/{id}','DownloadController@viewfunc');

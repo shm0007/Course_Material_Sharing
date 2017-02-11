@@ -14,6 +14,16 @@ class UploadController extends Controller
         $downloads=DB::table('test')->get();
         return view('uploadfile',compact('downloads'));
     }
+    public function getviewteacher($id){
+       $arr = explode("+",$id);
+       $course_code = $arr[0];
+       $teacher = $arr[2];
+       $taking_dept = $arr[1];
+       $sesson = $arr[3];
+       //return $course_code.$sesson;
+        $downloads=DB::table('test')->get();
+        return view('uploadfile',compact('downloads','course_code','taking_dept','teacher','sesson'));
+    }
 
     public function insertFile(){
 
@@ -85,9 +95,9 @@ class UploadController extends Controller
                     'message' => 'File Uploaded succesfully',
                     'alert-type' => 'success'
                     );
+return Redirect::to('viewAlldownloadfile');
 
-
-                return Redirect::to('uploadfile')->with($notification);
+                //return Redirect::to('uploadfile')->with($notification);
 
             } else {
 

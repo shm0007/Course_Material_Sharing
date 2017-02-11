@@ -39,9 +39,10 @@
                             <td>{{$crs->taking_dept}}</td>
                             <td>{{$crs->session}}</td>
                             <td class="panel danger">
-                                                        <a href="a.com" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;">Draft
-                                                        </a>$crs->course_code
-                                                    </td>
+
+                                <a href="{!! route('uploadfile',[$crs->course_code.'+'.$crs->taking_dept.'+'.$crs->offered_dept.'+'.$crs->session]) !!}" class="btn btn-success btn-xs btn-archive" style=margin-right: 3px;">Draft
+                                </a>$crs->course_code
+                                    </td>
                         </tr>
                   
                     @endforeach

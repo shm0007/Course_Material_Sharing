@@ -88,7 +88,7 @@ $(document).ready( function () {
 </div>
   <table class="table table-bordered">
           <thead>
-            <th>Title</th>
+            <th>{{$sesson}}</th>
             <th>File Name</th>
             <th>Action</th>
           </thead>
@@ -96,7 +96,7 @@ $(document).ready( function () {
           <tbody>
 
           @foreach($downloads as $down)
-            @if($down->material_type=="pdf")
+            @if( strcmp($down->title ,$sesson )==0)
             <tr>
               <td>{{$down->title}}</td>
               <td>{{$down->file_name}}</td>
