@@ -1,16 +1,8 @@
-@extends('layouts.template_body')
+@extends('layouts.template')
 @section('content')
 <div class="container">
-  <div class="details">
-  <h3>Course Name: XXX</h3>
-  <p>Course code: XXX<p>
-
-  <p>Course Taken: 70 students </p>
-  <p>Total Credit : 3</p>
-
-  </div>
-  <div id="preview"><button type="submit" class="btn btn-default">Upload Files</button></div>
-  <div id="div2">
+ 
+ 
   {!!Form::open(array('route' => ['insertfile', $course_code,$taking_dept,$teacher,$sesson] , 'method' => 'POST', 'class' => 'form-horizontal', 'files' => true)) !!}
     <div class="form-group">
       <label class="control-label col-sm-2" for="name">Title:</label>
@@ -45,9 +37,8 @@
     </div>
   <!-- </form> -->
   {!! Form::close() !!}
-  </div>
   <div>
-   <table id="example" class="display">
+    <table class="table table-bordered">
           <thead>
             <th>{{$sesson}}</th>
             <th>File Name</th>
@@ -60,23 +51,33 @@
             
             <tr>
               <td>{{$down->title}}</td>
-              
+              <td>{{$down->file_name}}</td>
               <td><a href="/up_file/{{$down->file_name}}" download="{{$down->file_name}}">
-                
-                  {{$down->file_name}}
+                <button type="button" class="btn btn-primary">
+                <i class="glyphicon glyphicon-download">  Download</i>
 
                 </button>
               </a></td>
-              <td> <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;">View
-                                                        </a></td>
-                        </tr>
+              <td class="panel danger">
+                                                        <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;">View
+                                                        </a>
+                                                    </td>           </tr>
           
           @endforeach
           </tbody>
           
          </table>
-         </div>
+
+
+
+  </div>
 </div>
- 
+@stop
+@section('style')
+
+@stop
+@section('script')
+
+
 
 @stop
