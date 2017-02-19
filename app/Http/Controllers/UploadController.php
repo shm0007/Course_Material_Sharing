@@ -11,21 +11,22 @@ use DB;
 class UploadController extends Controller
 {
     public function getview(){
-        $downloads=DB::table('test')->get();
+        $downloads=DB::table('material')->get();
         return view('uploadfile',compact('downloads'));
     }
-    public function getviewteacher($id){
-       $arr = explode("+",$id);
-       $course_code = $arr[0];
-       $teacher = $arr[2];
-       $taking_dept = $arr[1];
-       $sesson = $arr[3];
+   // public function getviewteacher($id){
+    public function getviewteacher($course_code,$taking_dept,$teacher,$sesson){
+       // $arr = explode("+",$id);
+       // $course_code = $arr[0];
+       // $teacher = $arr[2];
+       // $taking_dept = $arr[1];
+       // $sesson = $arr[3];
        //return $course_code.$sesson;
-        $downloads=DB::table('test')->get();
+        $downloads=DB::table('material')->get();
         return view('uploadfile',compact('downloads','course_code','taking_dept','teacher','sesson'));
     }
 
-    public function insertFile(){
+    public function insertFile($course_code,$taking_dept,$teacher,$sesson){
 
         $filetitle=Input::get('file_title');
         $file=Input::file('filenam');
@@ -47,7 +48,7 @@ class UploadController extends Controller
 
             //send back to the page with the input data and errors
 
-            return Redirect::to('uploadfile')->withInput->withErrors($validator);
+           // return Redirect::to('uploadfile')->withInput->withErrors($validator);
 
         } else if($validator->passes()){
            // echo "success validator";
@@ -61,12 +62,12 @@ class UploadController extends Controller
 
                 //renaming
                 //$filename =rand(11111,99999).'.'.$extension;
-                $c_id='c_id';
-                $taking_dept = 'dept';
-                $session = 'session';
-                $user_name ='sadia';
+                // $c_id='c_id';
+                // $taking_dept = 'dept';
+                // $session = 'session';
+                // $user_name ='sadia';
 
-                 $filename =$filetitle.'_'.$c_id.'_'.$taking_dept.'_'.$session.'_'.$user_name.'.'.$extension;
+                 $filename =$filetitle.'_'.$course_code.'_'.$taking_dept.'_'.$sesson.'.'.$extension;
 
                 $destinationPath = 'up_file';
                 //it means projectfolder/public/up_file
@@ -78,12 +79,12 @@ class UploadController extends Controller
                     'title' => $filetitle,
                     'file_name' => $filename,
                     'material_type' => $extension,
-                    // 'uploader_type' => '1',
-                    // 'user_name' => 'sadia',
-                    // 'reg_no' => 0,
-                    // 'c_id' => 0,
-                    // 'taking_dept' => 'null',
-                    // 'session' => 'null'
+                     'uploader_type' => '1',
+                     'user_name' => 'sadia',
+                     'reg_no' => '1',
+                     'c_id' => 1,
+                     'taking_dept' => $taking_dept,
+                     'session' => $sesson
 
 
 

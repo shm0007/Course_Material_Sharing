@@ -11,7 +11,7 @@ class DownloadController extends Controller
 
 	public function downfunc(){
 
-		$downloads=DB::table('test')->get();
+		$downloads=DB::table('material')->get();
 
     return view('download.viewfile',compact('downloads'));
     //return view('download.viewfile');

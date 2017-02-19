@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
   <style type="text/css">
   .help-block{
-  	color: red;
+    color: red;
   }
   </style>
 <script>
@@ -30,19 +30,19 @@ $(document).ready( function () {
 
 </script>
   <script >
-  	@if(Session::has('message'))
-  	var type = ""{{ Session::get('alert-type','info')}};
-	switch(type){
+    @if(Session::has('message'))
+    var type = ""{{ Session::get('alert-type','info')}};
+  switch(type){
 
-		case 'success':
-		toastr.success("{{ Session::get('message')}}");
-		break;
+    case 'success':
+    toastr.success("{{ Session::get('message')}}");
+    break;
 
-		case 'error':
-		toastr.error("{{ Session::get('message')}}");
-		break;
-	}
-	@endif  	
+    case 'error':
+    toastr.error("{{ Session::get('message')}}");
+    break;
+  }
+  @endif    
   </script>
 
 </head>
@@ -51,7 +51,8 @@ $(document).ready( function () {
 <div class="container">
   <h2>File Upload</h2>
   <!-- <form class="form-horizontal"> -->
-  {!! Form::open(array('url'=>'insertfile','method'=>'POST', 'class' =>'form-horizontal' , 'files' => true))!!}
+ 
+  {!!Form::open(array('route' => ['insertfile', $course_code,$taking_dept,$teacher,$sesson] , 'method' => 'POST', 'class' => 'form-horizontal', 'files' => true)) !!}
     <div class="form-group">
       <label class="control-label col-sm-2" for="name">Title:</label>
       <div class="col-sm-10">
@@ -96,21 +97,21 @@ $(document).ready( function () {
           <tbody>
 
           @foreach($downloads as $down)
-            @if( strcmp($down->title ,$sesson )==0)
+            
             <tr>
               <td>{{$down->title}}</td>
               <td>{{$down->file_name}}</td>
-              <td><a href="up_file/{{$down->file_name}}" download="{{$down->file_name}}">
+              <td><a href="/up_file/{{$down->file_name}}" download="{{$down->file_name}}">
                 <button type="button" class="btn btn-primary">
                 <i class="glyphicon glyphicon-download">  Download</i>
 
                 </button>
               </a></td>
               <td class="panel danger">
-                                                        <a href="viewAlldownloadfile\{{$down->file_name}}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;">View
+                                                        <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;">View
                                                         </a>
                                                     </td>           </tr>
-          @endif
+          
           @endforeach
           </tbody>
           

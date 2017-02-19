@@ -16,12 +16,24 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('uploadfile/{id}',['as' => 'uploadfile', 'uses' => 'UploadController@getviewteacher']);
+//Route::get('uploadfile/{id}',['as' => 'uploadfile', 'uses' => 'UploadController@getviewteacher']);
+Route::get('uploadfile/{course_code}/{taking_dept}/{teacher}/{sesson}',['as' => 'uploadfile', 'uses' =>  'UploadController@getviewteacher']);
 Route::get('/home', 'HomeController@index');
 Route::get('/uploadfile','UploadController@getview');
 
-Route::post('/insertfile',array('as'=>'insertfile' , 'uses' => 'UploadController@insertFile'));
-Route::get('viewAlldownloadfile','DownloadController@downfunc');
-Route::get('viewAlldownloadfile/{id}','DownloadController@viewfunc');
+Route::post('/insertfile/{course_code}/{taking_dept}/{teacher}/{sesson}',array('as'=>'insertfile' , 'uses' => 'UploadController@insertFile'));
+Route::get('/viewAlldownloadfile','DownloadController@downfunc');
+Route::get('/viewAlldownloadfile/{id}', ['as' => 'viewAlldownloadfile', 'uses' =>  'DownloadController@viewfunc']);
+Route::get('/discussion','DiscussionController@getview');
+
+
+
+
+//Route::get('uploadfile/{id}',['as' => 'uploadfile', 'uses' => 'UploadController@getviewteacher']);
+
+
+
+
+
 
 
