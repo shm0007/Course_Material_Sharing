@@ -49,7 +49,7 @@
   <div>
    <table id="example" class="display">
           <thead>
-            <th>{{$sesson}}</th>
+            <th>Title</th>
             <th>File Name</th>
             <th>Action</th>
           </thead>
@@ -65,10 +65,14 @@
                 
                   {{$down->file_name}}
 
-                </button>
+                
               </a></td>
-              <td> <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;">View
-                                                        </a></td>
+              <td> <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;color: white;">View
+                                                        </a> 
+<a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-danger btn-xs btn-archive" style="margin-right: 3px;color: white;">Delete
+                                                        </a>
+
+                                                        </td>
                         </tr>
           
           @endforeach
