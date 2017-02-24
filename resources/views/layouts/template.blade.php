@@ -35,7 +35,7 @@ $(document).ready( function () {
         <div id="tooplate_menu">
             <ul>
                 <li><a href="#" class="current">Dashboard</a></li>
-                <li><a href="#" >Discussion</a></li>
+                <li><a href="{{ route('discussion') }}" >Discussion</a></li>
               
                 <li><a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();

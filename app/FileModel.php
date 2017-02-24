@@ -9,4 +9,5 @@ class FileModel extends Model
     //
    // protected $table="test";
      protected $table="material";
+     
 }

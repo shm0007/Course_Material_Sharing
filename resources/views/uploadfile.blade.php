@@ -55,25 +55,36 @@
           </thead>
 
           <tbody>
-
-          @foreach($downloads as $down)
-            
+          
+          @foreach($multi as $down)
+             {{$in=0}}
             <tr>
               <td>{{$down->title}}</td>
               
-              <td><a href="/up_file/{{$down->file_name}}" download="{{$down->file_name}}">
-                
-                  {{$down->file_name}}
+              <td>
+                @foreach($downloads as $dow2)
+                @if($dow2->title ==$down->title)
+                  ({{$in=$in+1}})
+                  <a href="/up_file/{{$dow2->file_name}}" download="{{$dow2->file_name}}">        
+                      {{$dow2->file_name}}           
+                  </a>
+                @endif
+                @endforeach
 
-                
-              </a></td>
-              <td> <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;color: white;">View
-                                                        </a> 
-<a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-danger btn-xs btn-archive" style="margin-right: 3px;color: white;">Delete
-                                                        </a>
+              </td>
+              <td>
+                @if($in==1)
+                <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive"  style="margin-right: 3px;color: white;">View
+                </a>
+                @else
+                <button type="button" class="btn btn-default" disabled="disabled"  style="margin-right: 3px;">View</button>
+               
+                @endif
+                <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-danger btn-xs btn-archive" style="margin-right: 3px;color: white;">Delete
+                </a>
 
-                                                        </td>
-                        </tr>
+              </td>
+          </tr>
           
           @endforeach
           </tbody>

@@ -12,7 +12,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Course_Material_Sharing',
+    'name' => 'Course Material Sharing',
 
     /*
     |--------------------------------------------------------------------------

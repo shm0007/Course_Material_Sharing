@@ -24,7 +24,7 @@ Route::get('/uploadfile','UploadController@getview');
 Route::post('/insertfile/{course_code}/{taking_dept}/{teacher}/{sesson}',array('as'=>'insertfile' , 'uses' => 'UploadController@insertFile'));
 Route::get('/viewAlldownloadfile','DownloadController@downfunc');
 Route::get('/viewAlldownloadfile/{id}', ['as' => 'viewAlldownloadfile', 'uses' =>  'DownloadController@viewfunc']);
-Route::get('/discussion','DiscussionController@getview');
+Route::get('/discussion', ['as'=> 'discussion', 'uses'=>  'DiscussionController@getview']);
 
 
 

@@ -7,6 +7,8 @@ use Input;
 use Validator;
 use Redirect;
 use App\FileModel;
+use App\multifileModel;
+
 use DB;
 class UploadController extends Controller
 {
@@ -23,7 +25,9 @@ class UploadController extends Controller
        // $sesson = $arr[3];
        //return $course_code.$sesson;
         $downloads=DB::table('material')->get();
-        return view('uploadfile',compact('downloads','course_code','taking_dept','teacher','sesson'));
+        $multi = DB::table('material_list')->get();
+        $in=0;
+        return view('uploadfile',compact('downloads','multi','course_code','taking_dept','teacher','sesson','in'));
     }
 
     public function insertFile($course_code,$taking_dept,$teacher,$sesson){
@@ -67,7 +71,7 @@ class UploadController extends Controller
                 // $session = 'session';
                 // $user_name ='sadia';
 
-                 $filename =$filetitle.'_'.$course_code.'_'.$taking_dept.'_'.$sesson.'.'.$extension;
+                 $filename =$filetitle.'_'.$course_code.'_'.$taking_dept.'_'.$sesson.rand(11111,99999).'.'.$extension;
 
                 $destinationPath = 'up_file';
                 //it means projectfolder/public/up_file
@@ -90,13 +94,29 @@ class UploadController extends Controller
 
                     );
 
+                 $data2=array(
+                    'title' => $filetitle,
+                    
+                    'image' => $extension,
+                     'file_name' => $filename,
+                     'username' => 'sadia',
+                     
+                     'c_id' => 1,
+                     'taking_dept' => $taking_dept,
+                     'session' => $sesson
+
+
+
+                    );
+
                  FileModel::insert($data);
+                 multifileModel::insert($data2);
 
                 $notification = array(
                     'message' => 'File Uploaded succesfully',
                     'alert-type' => 'success'
                     );
-return Redirect::to('viewAlldownloadfile');
+                    return Redirect::to('viewAlldownloadfile');
 
                 //return Redirect::to('uploadfile')->with($notification);
 
