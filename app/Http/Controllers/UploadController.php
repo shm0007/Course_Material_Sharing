@@ -17,7 +17,7 @@ class UploadController extends Controller
         return view('uploadfile',compact('downloads'));
     }
    // public function getviewteacher($id){
-    public function getviewteacher($course_code,$taking_dept,$teacher,$sesson){
+    public function getviewteacher($course_code,$taking_dept,$offered_dept,$sesson){
        // $arr = explode("+",$id);
        // $course_code = $arr[0];
        // $teacher = $arr[2];
@@ -27,109 +27,131 @@ class UploadController extends Controller
         $downloads=DB::table('material')->get();
         $multi = DB::table('material_list')->get();
         $in=0;
-        return view('uploadfile',compact('downloads','multi','course_code','taking_dept','teacher','sesson','in'));
+        return view('uploadfile',compact('downloads','multi','course_code','taking_dept','offered_dept','sesson','in'));
     }
 
-    public function insertFile($course_code,$taking_dept,$teacher,$sesson){
+    public function insertFile($course_code,$taking_dept,$offered_dept,$sesson){
 
         $filetitle=Input::get('file_title');
-        $file=Input::file('filenam');
+        $files=Input::file('myfile');
 
-        // echo $filetitle;
-        // echo $file;
+         $file_count = count($files);
+        // start count how many uploaded
+        $uploadcount = 0;
+        $extension = 'check';
+        foreach($files as $file) {
+          $rules = array('file' => 'required'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+          $validator = Validator::make(array('file'=> $file), $rules);
+          if($validator->passes()){
+            $destinationPath = 'up_file';
+            $extension = $file->getClientOriginalExtension();
+          //  $filename = $file->getClientOriginalName();
+            $filename =$filetitle.'_'.$course_code.'_'.$taking_dept.'_'.$sesson.rand(11111,99999).'.'.$extension;
+            
+            $upload_success = $file->move($destinationPath, $filename);
+            $uploadcount ++;
 
-        $rules = array(
-            'file_title' => 'required',
-            'filenam' => 'required|mimes:doc,docx,jpeg,png,jpg,ppt,pptx,pdf,txt'
-            );
-
-        $validator=Validator::make(Input::all(), $rules);
-
-        if($validator->fails()){
-
-            //redirect our user back with error messages
-            $messages=$validator->messages();
-
-            //send back to the page with the input data and errors
-
-           // return Redirect::to('uploadfile')->withInput->withErrors($validator);
-
-        } else if($validator->passes()){
-           // echo "success validator";
-
-            //checking file is valid
-            if(Input::file('filenam')->isValid()){
-
-                //getting extension
-
-                $extension = Input::file('filenam')->getClientOriginalExtension();
-
-                //renaming
-                //$filename =rand(11111,99999).'.'.$extension;
-                // $c_id='c_id';
-                // $taking_dept = 'dept';
-                // $session = 'session';
-                // $user_name ='sadia';
-
-                 $filename =$filetitle.'_'.$course_code.'_'.$taking_dept.'_'.$sesson.rand(11111,99999).'.'.$extension;
-
-                $destinationPath = 'up_file';
-                //it means projectfolder/public/up_file
-
-                //uploading file to given path
-                $file->move($destinationPath,$filename);
-
-                $data=array(
+            $data=array(
                     'title' => $filetitle,
                     'file_name' => $filename,
                     'material_type' => $extension,
                      'uploader_type' => '1',
-                     'user_name' => 'sadia',
-                     'reg_no' => '1',
-                     'c_id' => 1,
-                     'taking_dept' => $taking_dept,
-                     'session' => $sesson
-
-
-
-                    );
-
-                 $data2=array(
-                    'title' => $filetitle,
-                    
-                    'image' => $extension,
-                     'file_name' => $filename,
-                     'username' => 'sadia',
                      
-                     'c_id' => 1,
+                     'user_name' => 'shamim',
+
                      'taking_dept' => $taking_dept,
-                     'session' => $sesson
+                     'offered_dept' => $offered_dept,
+                     'session' => $sesson,
+                     'course_code' => $course_code
 
 
 
                     );
 
                  FileModel::insert($data);
+          }
+        }
+
+        if($extension == 'pdf')
+        {
+            $fileType = 'pdf.png';
+        }
+        else if($extension == 'txt')
+        {
+            $fileType = 'txt.png';
+        }
+        else if($extension == 'doc' || $extension == 'docx')
+        {
+            $fileType = 'doc.png';
+        }
+        else if($extension == 'ppt' || $extension == 'pptx')
+        {
+            $fileType = 'powerpoint.png';
+        }
+        else if($extension == 'png')
+        {
+            $fileType = 'png.png';
+        }
+        else if($extension == 'jpg' || $extension == 'jpeg')
+        {
+            $fileType = 'jpg.png';
+        }
+
+
+
+        if($uploadcount == $file_count){
+        //  Session::flash('success', 'Upload successfully'); 
+
+            $data2=array(
+                                    'title' => $filetitle,
+                                     'file_name' => $filename,
+                    'image' => $fileType,
+                    'material_type' => $extension,
+                     'uploader_type' => '1',
+                     'user_name' => 'shamim',
+                     'taking_dept' => $taking_dept,
+                     'offered_dept' => $offered_dept,
+                     'session' => $sesson,
+                     'course_code' => $course_code
+
+
+
+                    );
+
                  multifileModel::insert($data2);
-
-                $notification = array(
-                    'message' => 'File Uploaded succesfully',
-                    'alert-type' => 'success'
-                    );
-                    return Redirect::to('viewAlldownloadfile');
-
-                //return Redirect::to('uploadfile')->with($notification);
-
-            } else {
-
-                $notification = array(
-                    'message' => 'File is not valid!',
-                    'alert-type' => 'error'
-                    );
-
-                return Redirect::to('uploadfile')->with($notification);
-                
-            }
+          return Redirect::to('viewAlldownloadfile');
+        } 
+        else {
+          return Redirect::to('uploadfile')->withInput()->withErrors($validator);
         }
     }
+
+    public function destroy($title)
+    {
+            
+        // DB::table('material')->where('title', $title)->delete();
+         //DB::table('material_list')->where('title', $title)->delete();
+         
+         // Redirect::to('home');
+        //  return  redirect()->route('home')
+             //   ->with('success', 'course deleted successfully');
+           return  $title;//Redirect::to('home');
+    }
+    public function destroy2($title,$course_code,$offered_dept,$taking_dept,$sesson)
+    {
+            
+         DB::table('material')->where('title', $title)->delete();
+         DB::table('material_list')->where('title', $title)->delete();
+         
+         // Redirect::to('home');
+        //  return  redirect()->route('home')
+             //   ->with('success', 'course deleted successfully');
+           //return  $title.$course_code.$offered_dept.$taking_dept.$sesson;
+       $downloads=DB::table('material')->get();
+        $multi = DB::table('material_list')->get();
+        $in=0;
+        return view('uploadfile',compact('downloads','multi','course_code','taking_dept','offered_dept','sesson','in'));
+
+    }
+               
 }

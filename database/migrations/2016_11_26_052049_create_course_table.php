@@ -17,9 +17,9 @@ class CreateCourseTable extends Migration
             $table->string('course_code');
             $table->string('course_name');
             $table->float('credit');
-            $table->string('offered_dept');
-            $table->string('taking_dept');
-            $table->string('session');
+           // $table->string('offered_dept');
+            //$table->string('taking_dept');
+            //$table->string('session');
 
 
             //$table->timestamps();

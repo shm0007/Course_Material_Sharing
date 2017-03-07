@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $course_list= DB::table('course')->get();
+        $course_list= DB::table('enrollment')->where('user_name','shamim')->get();
         return view('home',compact('course_list'));
     }
 }
