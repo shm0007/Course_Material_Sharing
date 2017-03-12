@@ -2,19 +2,21 @@
 @section('content')
 <div class="container">
    <div class="details">
-      <h3>Course Name: XXX</h3>
-      <p>Course code: XXX
+      <h3>Course Name: {{ $crs_details[0]->course_name}} </h3>
+      <p>Course code: {{ $crs_details[0]->course_code}}
       <p>
-      <p>Course Taken: 70 students </p>
-      <p>Total Credit : 3</p>
+      <p>Course Taken: {{ $tot_crs_taken }} students </p>
+      <p>Total Credit : {{ $crs_details[0]->credit}}</p>
    </div>
+   @if(Auth::user()->role==1)
    <div id="preview"><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-upload"></span> Upload Files</button></div>
-   <div id="div2">
+   @endif
+   <div id="div2"  >
       {!!Form::open(array('route' => ['insertfile', $course_code,$taking_dept,$offered_dept,$sesson] , 'method' => 'POST', 'class' => 'form-horizontal', 'files' => true)) !!}
       <div class="form-group">
          <label class="control-label col-sm-2" for="name">Title:</label>
          <div class="col-sm-10">
-            <input type="text" name='file_title'class="form-control file_title_c" id="form-control file_title_id" placeholder="Enter title" value="{{ Input::old('file_title')}}">
+            <input type="text" name='file_title'class="form-control file_title_c" id="form-control file_title_id" placeholder="Enter title" value="{{ Input::old('file_title')}}" required>
             @if($errors->has('file_title')) 
             <p class="help-block"> {{ $errors->first('file_title')}} </p>
             @endif
@@ -34,6 +36,7 @@
       <!-- </form> -->
       {!! Form::close() !!}
    </div>
+
    <div>
       <table id="example" class="display">
          <thead>
@@ -58,14 +61,22 @@
                </td>
                <td>
                   @if($in==1)
-                  <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive"  style="margin-right: 3px;color: white;">View
+                  @if($down->material_type=="pdf")
+                  <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive"  style="margin-right: 3px;color: white; text-decoration:none">View
                   </a>
                   @else
-                  <button type="button" class="btn btn-default" disabled="disabled"  style="margin-right: 3px;">View</button>
+                 <!-- {{$lnk = "http://localhost:8000/up_file/".$down->file_name}} -->
+                  <a href="{{$lnk}}" target="_blank" class="btn btn-success btn-xs btn-archive"  style="margin-right: 3px;color: white; text-decoration:none;">View
+                  </a>
+                  @endif
+                  @else
+                  <button type="button" class="btn btn-success btn-xs btn-archive" disabled="disabled"  style="margin-right: 3px;color:white; text-decoration:none">View</button>
                   @endif
                   
                   <!-- {{$te= $down->title}} -->
-                  <a href="#" data-record-id={{ $te }} class="btn btn-danger btn-xs btn-archive deleteBtn" data-record-title= {{ $te }} data-toggle="modal" data-target="#confirm-delete">Delete</a>
+                  @if(Auth::user()->role==1)
+                  <a href="#" style="color:white; text-decoration:none" data-record-id={{ $te }} class="btn btn-danger btn-xs btn-archive deleteBtn" data-record-title= {{ $te }} data-toggle="modal" data-target="#confirm-delete">Delete</a>
+                  @endif
                </td>
             </tr>
             @endforeach
@@ -90,14 +101,10 @@
          </div>
       </div>
    </div>
-   <a href="#" data-record-id="23" data-record-title="The first one" data-toggle="modal" data-target="#confirm-delete">
-   Delete "The first one", #23
-   </a>
-   <br />
-   <button class="btn btn-default" data-record-id="54" data-record-title="Something cool" data-toggle="modal" data-target="#confirm-delete">
-   Delete "Something cool", #54
-   </button>
+
+
    <script>
+
       $('#confirm-delete').on('click', '.btn-ok', function(e) {
           var $modalDiv = $(e.delegateTarget);
           var id = $(this).data('recordId');

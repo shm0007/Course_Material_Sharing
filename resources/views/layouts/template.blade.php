@@ -34,8 +34,18 @@ $(document).ready( function () {
         
         <div id="tooplate_menu">
             <ul>
-                <li><a href="#" class="current">Dashboard</a></li>
-                <li><a href="{{ route('discussion') }}" >Discussion</a></li>
+                <li><a href="#" 
+                @if($current_view=="home")
+                class="current"
+                @endif
+                >Dashboard</a></li>
+                    <li><a href="#" >Profile</a></li>
+                <li><a href="{{ route('discussion') }}" 
+                @if($current_view=="discussion")
+                class="current"
+                @endif
+                >Discussion</a></li>
+
               
                 <li><a href="{{ url('/logout') }}"
                                             onclick="event.preventDefault();

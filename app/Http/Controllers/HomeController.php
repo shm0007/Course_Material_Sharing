@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 class HomeController extends Controller
 {
     /**
@@ -23,7 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $course_list= DB::table('enrollment')->where('user_name','shamim')->get();
-        return view('home',compact('course_list'));
+        $name= Auth::user()->name;
+        //return $name;
+        $current_view= "home";
+        $course_list= DB::table('enrollment')->where('user_name',$name)->get();
+        return view('home',compact('course_list','current_view'));
     }
 }

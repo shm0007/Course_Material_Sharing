@@ -46,8 +46,9 @@
         <thead>
             <tr>
                 <th>Discussion Title</th>
-                <th>Last Entry</th>
+              
                 <th>Total comments</th>
+
                 <th>Details</th>
             </tr>
         </thead>
@@ -58,21 +59,38 @@
                      
                         <tr>
                             <td>{{$dwm->discussion_title}}</td>
-                            <td>10 tarikh</td>
-                            <td>1000000</td>
+                            <td>
+                            
+                          <!--{{$ct=0}} -->
+                            @foreach($entry as $ent)
+                            @if($ent->d_id==$dwm->id)
+                           <!-- {{$ct = $ct+1}} -->
+                            @endif
+                            @endforeach
+
+
+                            
+                            {{$ct}}
+                            </td>
+                       
                             @if( strcmp($dwm->status ,"suspended" )!=0)
                             <td class="panel danger">
-                                <a href="a.com" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;color: white;">VIew
+                                <a href="{{ route('discussionEntry', $dwm->id) }}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;color: white; text-decoration:none; width: 70px;height: 20px;">View
                                 </a>
-                                <a href="a.com" class="btn btn-danger btn-xs btn-archive" style="margin-right: 3px;color: white">Suspend
+                                @if( Auth::user()->role==1)
+                                <a href="{{ route('discussion.update3', $dwm->id) }}" class="btn btn-danger btn-xs btn-archive" style="margin-right: 3px;color: white;  text-decoration:none">Suspend
                                 </a>
+                                @endif
                             </td>
                             @else
+                            <!-- $act="ok" -->
                             <td class="panel danger">
-                                <a href="a.com" class="btn btn-danger btn-xs btn-archive" style="margin-right: 3px;color: white;">Suspended
+                                <a href="a.com" class="btn btn-danger btn-xs btn-archive" disabled="disabled"style="margin-right: 3px;color: white; text-decoration:none">Suspended
                                 </a>
-                                <a href="a.com" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;color: white">Undo
+                                @if(Auth::user()->role==1)
+                                <a href="{{ route('discussion.update2', $dwm->id) }}" class="btn btn-success btn-xs btn-archive" style="margin-right: 3px;color: white; text-decoration:none">Undo
                                 </a>
+                                @endif
                             </td>
                             @endif
 

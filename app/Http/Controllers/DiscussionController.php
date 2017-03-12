@@ -12,7 +12,10 @@ class DiscussionController extends Controller
     //
     public function getview(){
        $downloads=DB::table('discussion')->get();
-        return view('discussion',compact('downloads'));
+       $entry=DB::table('discussion_entry')->get();
+        $ct=0;
+        $current_view= "discussion";
+        return view('discussion',compact('downloads','entry','ct','current_view'));
     }
     public function insertFile($course_code,$taking_dept,$offered_dept,$sesson){
 
@@ -39,5 +42,34 @@ class DiscussionController extends Controller
       
        
     }
+
+    public function update3($d_id)
+    {
+       
+       {
+         DB::table('discussion')
+            ->where('id', $d_id)
+            ->update(['status' => 'suspended']);
+       }
+       
+
+        return Redirect::to('discussion');
+    }
+     public function update2($d_id)
+    {
+      
+         {
+         DB::table('discussion')
+            ->where('id', $d_id)
+            ->update(['status' => 'OK']);
+        }
+
+        return  Redirect::to('discussion');
+    }
+    
+
+    
+
+    
 
 }

@@ -3,35 +3,40 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use File;
 use Input;
 use Validator;
 use Redirect;
 use App\FileModel;
 use App\multifileModel;
-
+use Auth;
 use DB;
 class UploadController extends Controller
 {
     public function getview(){
+        $current_view= "upload";
         $downloads=DB::table('material')->get();
-        return view('uploadfile',compact('downloads'));
+        return view('uploadfile',compact('downloads','current_view'));
     }
    // public function getviewteacher($id){
-    public function getviewteacher($course_code,$taking_dept,$offered_dept,$sesson){
+   public function getviewteacher($course_code,$taking_dept,$offered_dept,$sesson){
        // $arr = explode("+",$id);
        // $course_code = $arr[0];
        // $teacher = $arr[2];
        // $taking_dept = $arr[1];
        // $sesson = $arr[3];
        //return $course_code.$sesson;
-        $downloads=DB::table('material')->get();
-        $multi = DB::table('material_list')->get();
+     $current_view= "upload";
+        $downloads=DB::table('material')->where('course_code',$course_code)->where('taking_dept',$taking_dept)->where('offered_dept',$offered_dept)->where('session',$sesson)->get();
+        $multi = DB::table('material_list')->where('course_code',$course_code)->where('taking_dept',$taking_dept)->where('offered_dept',$offered_dept)->where('session',$sesson)->get();
+        $crs_details = DB::table('course')->where('course_code',$course_code)->get();
+        $tot_crs_taken = DB::table('enrollment')->where('course_code',$course_code)->where('taking_dept',$taking_dept)->where('offered_dept',$offered_dept)->where('taking_session',$sesson)->count();
         $in=0;
-        return view('uploadfile',compact('downloads','multi','course_code','taking_dept','offered_dept','sesson','in'));
+        return view('uploadfile',compact('downloads','multi','crs_details','tot_crs_taken','course_code','taking_dept','offered_dept','sesson','in','current_view'));
     }
 
     public function insertFile($course_code,$taking_dept,$offered_dept,$sesson){
-
+ $current_view= "upload";
         $filetitle=Input::get('file_title');
         $files=Input::file('myfile');
 
@@ -40,7 +45,12 @@ class UploadController extends Controller
         $uploadcount = 0;
         $extension = 'check';
         foreach($files as $file) {
-          $rules = array('file' => 'required'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+         // $rules = array('file' => 'required'); //'required|mimes:png,gif,jpeg,txt,pdf,doc'
+          $rules = array(
+            'file' => 'required|max:537600'
+           // 'file' => 'required|max:100000|mimes:pdf,txt,ppt,pptx,doc,docx,jpeg,png,jpg'
+
+            );
           $validator = Validator::make(array('file'=> $file), $rules);
           if($validator->passes()){
             $destinationPath = 'up_file';
@@ -55,9 +65,9 @@ class UploadController extends Controller
                     'title' => $filetitle,
                     'file_name' => $filename,
                     'material_type' => $extension,
-                     'uploader_type' => '1',
+                     'uploader_type' => Auth::user()->role,
                      
-                     'user_name' => 'shamim',
+                     'user_name' => Auth::user()->name,
 
                      'taking_dept' => $taking_dept,
                      'offered_dept' => $offered_dept,
@@ -96,6 +106,10 @@ class UploadController extends Controller
         {
             $fileType = 'jpg.png';
         }
+        else
+        {
+            $fileType = 'video.png';
+        }
 
 
 
@@ -107,8 +121,8 @@ class UploadController extends Controller
                                      'file_name' => $filename,
                     'image' => $fileType,
                     'material_type' => $extension,
-                     'uploader_type' => '1',
-                     'user_name' => 'shamim',
+                     'uploader_type' => Auth::user()->role,
+                     'user_name' => Auth::user()->name,
                      'taking_dept' => $taking_dept,
                      'offered_dept' => $offered_dept,
                      'session' => $sesson,
@@ -119,7 +133,12 @@ class UploadController extends Controller
                     );
 
                  multifileModel::insert($data2);
-          return Redirect::to('viewAlldownloadfile');
+                 $downloads=DB::table('material')->where('course_code',$course_code)->where('taking_dept',$taking_dept)->where('offered_dept',$offered_dept)->where('session',$sesson)->get();
+        $multi = DB::table('material_list')->where('course_code',$course_code)->where('taking_dept',$taking_dept)->where('offered_dept',$offered_dept)->where('session',$sesson)->get();
+        $crs_details = DB::table('course')->where('course_code',$course_code)->get();
+        $tot_crs_taken = DB::table('enrollment')->where('course_code',$course_code)->where('taking_dept',$taking_dept)->where('offered_dept',$offered_dept)->where('taking_session',$sesson)->count();
+        $in=0;
+          return view('uploadfile',compact('downloads','multi','crs_details','tot_crs_taken','course_code','taking_dept','offered_dept','sesson','in','current_view'));
         } 
         else {
           return Redirect::to('uploadfile')->withInput()->withErrors($validator);
@@ -139,9 +158,15 @@ class UploadController extends Controller
     }
     public function destroy2($title,$course_code,$offered_dept,$taking_dept,$sesson)
     {
-            
+         $file_list = DB::table('material')->where('title', $title)->get();
+
+         foreach ($file_list as $file) {
+             File::delete('up_file/' . $file->file_name);
+         }
+
          DB::table('material')->where('title', $title)->delete();
          DB::table('material_list')->where('title', $title)->delete();
+
          
          // Redirect::to('home');
         //  return  redirect()->route('home')
@@ -149,8 +174,11 @@ class UploadController extends Controller
            //return  $title.$course_code.$offered_dept.$taking_dept.$sesson;
        $downloads=DB::table('material')->get();
         $multi = DB::table('material_list')->get();
+        $crs_details = DB::table('course')->where('course_code',$course_code)->get();
+        $tot_crs_taken = DB::table('enrollment')->where('course_code',$course_code)->where('taking_dept',$taking_dept)->where('offered_dept',$offered_dept)->where('taking_session',$sesson)->count();
         $in=0;
-        return view('uploadfile',compact('downloads','multi','course_code','taking_dept','offered_dept','sesson','in'));
+         $current_view= "upload";
+        return view('uploadfile',compact('downloads','multi','crs_details','tot_crs_taken','course_code','taking_dept','offered_dept','sesson','in','current_view'));
 
     }
                
