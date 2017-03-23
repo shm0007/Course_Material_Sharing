@@ -48,3 +48,4 @@ Route::post('/insertdiscussion/{course_code}/{taking_dept}/{offered_dept}/{sesso
 Route::post('/insertdiscussionentry/{d_id}',array('as'=>'insertdiscussionentry' , 'uses' => 'DiscussionEntryController@insertFile'));
 
 
+Route::get('/tag', ['as' => 'tag', 'uses' =>  'DiscussionController@tag']);

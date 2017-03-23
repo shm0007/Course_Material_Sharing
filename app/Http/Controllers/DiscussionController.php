@@ -66,6 +66,14 @@ class DiscussionController extends Controller
 
         return  Redirect::to('discussion');
     }
+     public function tag()
+    {
+      
+        
+
+         $current_view= "discussion";
+        return view('tag',compact('current_view'));
+    }
     
 
     
