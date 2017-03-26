@@ -11,12 +11,12 @@ body {
 	font-size: 13px;
 	line-height: 1.7em; 
 	background-color: #e9e6e6;
-	background-image: url(images/tooplate_body.jpg);
+	background-image: url(images/tooplate_body3.jpg);
 	background-repeat: repeat
 }
 
 a, a:link, a:visited { 
-	color: #d76300; 
+	color: #6a3500; 
 	font-weight: normal; 
 	text-decoration: underline; 
 	font-size: 12px; 
@@ -171,7 +171,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 	width: 100px;
 	line-height: 30px;
 	font-size: 14px;
-	color: #fd7e11;	
+	color: #ffffff;	
 	text-align: center;
 	text-decoration: none;
 	font-weight: 700;

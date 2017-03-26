@@ -11,7 +11,8 @@ body {
 	font-size: 13px;
 	line-height: 1.7em; 
 	background-color: #e9e6e6;
-	background-image: url(images/tooplate_body.jpg);
+	background-image:url(/images/login5.jpg);
+	
 	background-repeat: repeat
 }
 
@@ -99,7 +100,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 	color:#e17112; 
 	margin: 0; 
 	padding: 0 0 5px 20px; 
-	background: url(images/tooplate_list.png) no-repeat scroll 0 3px;  
+	
 }
 
 .tooplate_list li a { 
@@ -124,7 +125,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 	height: 120px; 
 	overflow: hidden; 
 	padding: 0 10px; 
-	background: url(images/tooplate_header_login.png) bottom no-repeat; 
+	
 }
 
 #site_title { 
@@ -191,7 +192,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 	position: relative;
 	width: 100%;
 	padding: 0 14px;
-	background: url(images/tooplate_main.png) repeat-y;
+	
 }
 
 #tooplate_middle {
@@ -421,7 +422,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 	color: #333;
 	text-align: center;
 	margin: 0 auto;
-	background: url(images/tooplate_footer.png) top no-repeat
+	
 }
 
 .form-control {
