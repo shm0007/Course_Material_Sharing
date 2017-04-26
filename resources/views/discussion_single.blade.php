@@ -7,14 +7,46 @@
         </div>
     </div>
     <div> 
-   
-       
+    <div id="preview"><button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-upload"></span> Create a Discussion</button></div>
+        <div id="div2">
+      {!!Form::open(array('route' => ['insertdiscussion',$course_code,$offered_dept,$taking_dept,$sesson] , 'method' => 'POST', 'class' => 'form-horizontal', 'files' => true)) !!}
+      <div class="form-group">
+         <label class="control-label col-sm-2" for="name">Title:</label>
+         <div class="col-sm-10">
+            <input type="text" name='file_title'class="form-control file_title_c" id="form-control file_title_id" placeholder="Enter title" value="{{ Input::old('file_title')}}">
+            @if($errors->has('file_title')) 
+            <p class="help-block"> {{ $errors->first('file_title')}} </p>
+            @endif
+         </div>
+          
+      </div>
+    <div class="form-group">
+         <label class="control-label col-sm-2" for="name">Type:</label>
+        <div class="col-sm-10">
+            <input type="text" name='file_type'class="form-control file_title_c" id="form-control file_title_id" placeholder="Enter type" value="{{ Input::old('file_type')}}">
+            @if($errors->has('file_type')) 
+            <p class="help-block"> {{ $errors->first('file_title')}} </p>
+            @endif
+         </div>
+          
+      </div>
+      
+
+
+      <div class="form-group">
+         <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Submit</button>
+         </div>
+      </div>
+      <!-- </form> -->
+
+      {!! Form::close() !!}
+   </div>
 
     <table id="example" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
                 <th>Discussion Title</th>
-                <th>Discussion Type</th>
               
                 <th>Total comments</th>
 
@@ -25,12 +57,11 @@
         <tbody>
          
            @foreach($downloads as $dwm)
-              @foreach($enrol as $en)
-              @if($en->course_code== $dwm->course_code    && $en->offered_dept == $dwm->offered_dept && $en->taking_dept == $dwm->taking_dept && $en->taking_session == $dwm->session)
+             
+              @if($course_code== $dwm->course_code    && $offered_dept == $dwm->offered_dept && $taking_dept == $dwm->taking_dept && $sesson == $dwm->session)
                      
                         <tr>
                             <td>{{$dwm->discussion_title}}</td>
-                            <td>{{$dwm->discussion_type}}</td>
                             <td>
                             
                           <!--{{$ct=0}} -->
@@ -69,7 +100,7 @@
                         </tr>
                   @endif
 
-                    @endforeach
+                    
                       @endforeach
             
 

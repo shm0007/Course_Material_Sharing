@@ -36,9 +36,9 @@
       <!-- </form> -->
       {!! Form::close() !!}
    </div>
-
+<br> </br>
    <div>
-      <table id="example" class="display">
+      <table id="example" class="display"  cellspacing="0" width="100%">
          <thead>
             <th>Title</th>
             <th>File Name</th>
@@ -53,19 +53,19 @@
                   @foreach($downloads as $dow2)
                   @if($dow2->title ==$down->title)
                   ({{$in=$in+1}})
-                  <a href="/up_file/{{$dow2->file_name}}" download="{{$dow2->file_name}}">        
+                  <a href="/up_file/{{$dow2->file_name}}" download="{{$dow2->file_name}}" style="color:black;">        
                   {{$dow2->file_name}}           
                   </a>
                   @endif
                   @endforeach
                </td>
-               <td>
+               <td style="width:100px">
                   @if($in==1)
                   @if($down->material_type=="pdf")
                   <a href="{{ route('viewAlldownloadfile', $down->file_name) }}" class="btn btn-success btn-xs btn-archive"  style="margin-right: 3px;color: white; text-decoration:none">View
                   </a>
                   @else
-                 <!-- {{$lnk = "http://localhost:8000/up_file/".$down->file_name}} -->
+                 <!-- {{$lnk = "http://10.100.32.128:8000/up_file/".$down->file_name}} -->
                   <a href="{{$lnk}}" target="_blank" class="btn btn-success btn-xs btn-archive"  style="margin-right: 3px;color: white; text-decoration:none;">View
                   </a>
                   @endif

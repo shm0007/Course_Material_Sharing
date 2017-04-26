@@ -10,6 +10,7 @@
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
    
     <link rel="stylesheet" type="text/css" href="/css/dt1.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/fa-fa.css"/>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 
@@ -81,7 +82,12 @@ $(document).ready( function () {
                 class="current"
                 @endif
                 >Dashboard</a></li>
-                    <li><a href="#" >Profile</a></li>
+                    <li><a href="{{ route('profile') }}" 
+
+@if($current_view=="profile")
+                class="current"
+                @endif
+                    >Profile</a></li>
                 <li><a href="{{ route('discussion') }}" 
                 @if($current_view=="discussion")
                 class="current"

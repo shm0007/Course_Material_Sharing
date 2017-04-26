@@ -38,6 +38,8 @@ Route::get('/discussionEntry/{id}', ['as'=> 'discussionEntry', 'uses'=>  'Discus
 Route::get('discussion3/{d_id}',['as' => 'discussion.update3', 'uses' => 'DiscussionController@update3']);
 Route::get('discussion/{d_id}',['as' => 'discussion.update2', 'uses' => 'DiscussionController@update2']);
 
+Route::get('discussion/{course_code}/{taking_dept}/{offered_dept}/{sesson}',['as' => 'discussion.single', 'uses' => 'DiscussionController@single']);
+
 //Route::get('uploadfile/{id}',['as' => 'uploadfile', 'uses' => 'UploadController@getviewteacher']);
 
 
@@ -49,3 +51,11 @@ Route::post('/insertdiscussionentry/{d_id}',array('as'=>'insertdiscussionentry' 
 
 
 Route::get('/tag', ['as' => 'tag', 'uses' =>  'DiscussionController@tag']);
+Route::get('/profile', ['as'=> 'profile', 'uses'=>  'HomeController@getprofile']);
+Route::post('/insertphoto',array('as'=>'insertphoto' , 'uses' => 'HomeController@insertPhoto'));
+Route::get('/admin', ['as' => 'admin', 'uses' =>  'HomeController@admin']);
+
+Route::post('/adminEdit',array('as'=>'adminEdit' , 'uses' => 'HomeController@adminEdit'));
+
+Route::post('/adminEditTeacher',array('as'=>'adminEditTeacher' , 'uses' => 'HomeController@adminEditTeacher'));
+Route::get('/deletecomment/{id}/{id2}', ['as' => 'deletecomment', 'uses' =>  'DiscussionEntryController@deleteCommentEntry']);

@@ -16,7 +16,7 @@ body {
 }
 
 a, a:link, a:visited { 
-	color: #d76300; 
+	color: #ffffff; 
 	font-weight: normal; 
 	text-decoration: underline; 
 	font-size: 12px; 
@@ -179,7 +179,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 }
 
 #tooplate_menu ul li a:hover, #tooplate_menu ul .current {
-	color: #ffffff;
+	color: #0e0e0e;
 	text-shadow: 1px 1px 1px #ff9a43;
 	background: url(images/tooplate_menu.png) no-repeat
 }
@@ -416,7 +416,7 @@ h6 { font-size: 14px; margin: 0 0 5px; padding: 0; }
 	clear: both;
 	width: 968px;
 	padding: 60px 0 10px; 
-	color: #333;
+	color: #ffffff;
 	text-align: center;
 	margin: 0 auto;
 	background: url(images/tooplate_footer.png) top no-repeat

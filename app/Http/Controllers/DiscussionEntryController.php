@@ -9,7 +9,7 @@ use Input;
 use Validator;
 use Redirect;
 use App\DiscussionEntryModel;
-
+use Auth;
 
 
 use Carbon\Carbon;
@@ -21,7 +21,10 @@ class DiscussionEntryController extends Controller
     	$disc = DB::table('discussion')->where('id',$id)->get();
        $downloads=DB::table('discussion_entry')->where('d_id',$id)->get();
         $current_view= "discussion";
-        return view('discussionentry',compact('downloads','disc','current_view'));
+        $image = DB::table('user_details')->get();
+     $link = "/img/image2.png";
+
+        return view('discussionentry',compact('downloads','disc','current_view','image','link'));
     }
      public function insertFile($d_id){
      	
@@ -39,7 +42,7 @@ class DiscussionEntryController extends Controller
                     'description' => $filetitle,
                     'd_id'=> $d_id,
                 
-                     'uploader_name' => 'shamim',
+                     'uploader_name' => Auth::user()->name,
                      'created_at' => Carbon::now()->toDateTimeString(),
                      'updated_at' => Carbon::now()->toDateTimeString()
 
@@ -51,8 +54,22 @@ class DiscussionEntryController extends Controller
                    $current_view= "discussion";
                    $disc = DB::table('discussion')->where('id',$d_id)->get();
        $downloads=DB::table('discussion_entry')->where('d_id',$d_id)->get();
-          return view('discussionentry',compact('downloads','disc','current_view'));
+           $image = DB::table('user_details')->get();
+     $link = "/img/image2.png";
+          return view('discussionentry',compact('downloads','disc','current_view','image','link'));
       
        
+    }
+    public function deleteCommentEntry($id,$id2)
+    {
+      DB::table('discussion_entry')->where('id', $id2)->delete();
+     $disc = DB::table('discussion')->where('id',$id)->get();
+       $downloads=DB::table('discussion_entry')->where('d_id',$id)->get();
+        $current_view= "discussion";
+        $image = DB::table('user_details')->get();
+     $link = "/img/image2.png";
+
+        return view('discussionentry',compact('downloads','disc','current_view','image','link'));
+
     }
 }
